@@ -1,5 +1,4 @@
 import { Engine, Render, World, Bodies } from "matter-js";
-import { parse as algebraParse, Equation } from "algebra.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 /*  // create an engine
@@ -58,37 +57,60 @@ document.addEventListener("DOMContentLoaded", () => {
   const points = [
     { x: 50, y: 50 },
     { x: 150, y: 100 },
-    { x: 50, y: 150 }
+    { x: 50, y: 150 },
+    { x: 150, y: 175 }
   ];
 
+  const outsideLine = [];
+  const insideLine = [];
+
+  ctx.strokeStyle = "black";
+  ctx.beginPath();
   points.forEach((vector, index) => {
-    ctx.fillStyle = "red";
-    ctx.fillRect(vector.x, vector.y, 5, 5);
     if (index === 0) {
+      ctx.moveTo(vector.x, vector.y);
       let rad = Math.atan2(points[index + 1].y - vector.y, points[index + 1].x - vector.x);
       rad += toRadian(-90);
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      outsideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
       rad += toRadian(180);
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      insideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
     } else if (index === points.length - 1) {
       let rad = Math.atan2(vector.y - points[index - 1].y, vector.x - points[index - 1].x);
       rad += toRadian(-90);
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      outsideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
       rad += toRadian(180);
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      insideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
     } else {
       let rad1 = Math.atan2(points[index - 1].y - vector.y,  points[index - 1].x - vector.x);
       let rad2 = Math.atan2(points[index + 1].y - vector.y,  points[index + 1].x - vector.x);
       let rad = (rad1 + rad2) / 2;
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      outsideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
       rad += toRadian(180);
-      ctx.fillStyle = "black";
-      ctx.fillRect(vector.x + Math.cos(rad) * lineWidth, vector.y + Math.sin(rad) * lineWidth, 2, 2);
+      insideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
+    }
+    ctx.lineTo(vector.x, vector.y);
+  });
+  ctx.stroke();
+
+  ctx.strokeStyle = "red";
+  ctx.beginPath();
+  outsideLine.forEach((vector, index) => {
+    if (index === 0) {
+      ctx.moveTo(vector.x, vector.y);
+    } else {
+      ctx.lineTo(vector.x, vector.y);
     }
   });
+  ctx.stroke();
+
+  ctx.strokeStyle = "blue";
+  ctx.beginPath();
+  insideLine.forEach((vector, index) => {
+    if (index === 0) {
+      ctx.moveTo(vector.x, vector.y);
+    } else {
+      ctx.lineTo(vector.x, vector.y);
+    }
+  });
+  ctx.stroke();
 });
