@@ -35,9 +35,6 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "module-alias": "^2.0.0"
-  },
-  "_moduleAliases": {
-    "@js": "js"
+    "matter-js": "^0.12.0"
   }
 }
