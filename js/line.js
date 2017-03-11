@@ -6,13 +6,13 @@ export default class Line {
     this.lineWidth = lineWidth;
 
     if (this.points.length > 0) {
-      this.caluclatePoints();
+      this.calculatePoints();
     }
   }
   addPoint(point) {
     this.points.push(point);
   }
-  caluclatePoints() {
+  calculatePoints() {
     this.outsidePoints = [];
     this.insidePoints = [];
     this.points.forEach((point, index) => {
