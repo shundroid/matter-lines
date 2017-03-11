@@ -10,12 +10,19 @@ export default class Line {
       this.calculatePoints();
     }
   }
+  clear() {
+    this.points = [];
+    this.outsidePoints = [];
+    this.insidePoints = [];
+  }
   addPoint(point) {
     this.points.push(point);
+    this.calculatePoints();
   }
   calculatePoints() {
     this.outsidePoints = [];
     this.insidePoints = [];
+    if (this.points.length <= 1) return;
     for (let index = 0; index < this.points.length; index++) {
       if (index === 0) {
         this.calculateFirstPoint(index);
@@ -40,7 +47,7 @@ export default class Line {
     const point = this.points[index];
     const beforePoint = this.points[index];
     const rad =
-      Math.atan2(point.y - this.points[index - 1].y, point.x - this.points[index - 1].x) - Math.PI / 2;
+      Math.atan2(this.points[index - 1].y - point.y, this.points[index - 1].x - point.x) + Math.PI / 2;
     const sin = Math.sin(rad) * this.lineWidth;
     const cos = Math.cos(rad) * this.lineWidth;
     this.outsidePoints.push({ x: point.x + cos, y: point.y + sin });
@@ -50,7 +57,6 @@ export default class Line {
     const point = this.points[index];
     let rad1 = Math.atan2(this.points[index - 1].y - point.y, this.points[index - 1].x - point.x);
     let rad2 = Math.atan2(this.points[index + 1].y - point.y, this.points[index + 1].x - point.x);
-    console.log(rad1, rad2);
     const rad = (rad2 - rad1) / 2;
     const x = Math.cos(rad) * this.lineWidth / Math.sin(rad);
     const y = this.lineWidth;
@@ -73,7 +79,9 @@ export default class Line {
     }
   }
   getVertices() {
-    return this.outsidePoints.concat(this.insidePoints.reverse());
+    const vertices = this.outsidePoints.concat(this.insidePoints.reverse());
+    this.insidePoints.reverse();
+    return vertices;
   }
 }
 

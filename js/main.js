@@ -35,34 +35,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
-  console.log(ctx.miterLimit);
 
-  const points = [
-    { x: 250, y: 70 },
-    { x: 150, y: 100 },
-    { x: 400, y: 70 }
-  ];
-  window.line = new Line(points);
+  const line = new Line([
+    { x: 50, y: 80 },
+    { x: 200, y: 100 },
+    { x: 50, y: 110 }
+  ]);
 
-  ctx.strokeStyle = "red";
-  ctx.beginPath();
-  line.points.forEach((point, index) => {
-    if (index === 0) {
-      ctx.moveTo(point.x, point.y);
-    } else {
-      ctx.lineTo(point.x, point.y);
+  let count = 0;
+  function tick() {
+    if (++count === 10) {
+      count = 0;
+      line.clear();
     }
-  });
-  ctx.stroke();
+    //line.addPoint({ x: Math.random() * canvas.width, y: Math.random() * canvas.height });
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "red";
+    ctx.beginPath();
+    line.points.forEach((point, index) => {
+      if (index === 0) {
+        ctx.moveTo(point.x, point.y);
+      } else {
+        ctx.lineTo(point.x, point.y);
+      }
+    });
+    ctx.stroke();
 
-  ctx.strokeStyle = "black";
-  ctx.beginPath();
-  line.getVertices().forEach((point, index) => {
-    if (index === 0) {
-      ctx.moveTo(point.x, point.y);
-    } else {
-      ctx.lineTo(point.x, point.y);
-    }
-  });
-  ctx.stroke();
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
+    const vertices = line.outsidePoints;
+    vertices.forEach((point, index) => {
+      if (index === 0) {
+        ctx.lineTo(point.x, point.y);
+      } else {
+        ctx.lineTo(point.x, point.y);
+      }
+    });
+    ctx.stroke();
+  }
+  setTimeout(tick, 100);
 });
