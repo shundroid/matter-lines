@@ -55,10 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
 
   const points = [
-    { x: 50, y: 50 },
+    { x: 250, y: 70 },
     { x: 150, y: 100 },
-    { x: 50, y: 150 },
-    { x: 150, y: 175 }
+    { x: 100, y: 40 }
   ];
 
   const outsideLine = [];
@@ -83,10 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       let rad1 = Math.atan2(points[index - 1].y - vector.y,  points[index - 1].x - vector.x);
       let rad2 = Math.atan2(points[index + 1].y - vector.y,  points[index + 1].x - vector.x);
-      let rad = (rad1 + rad2) / 2;
-      outsideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
-      rad += toRadian(180);
-      insideLine.push({ x: vector.x + Math.cos(rad) * lineWidth, y: vector.y + Math.sin(rad) * lineWidth });
+      if (rad1 < 0) rad1 += toRadian(360);
+      if (rad2 < 0) rad2 += toRadian(360);
+      let rad = (rad2 - rad1) / 2;
+      console.log(rad * 180 / Math.PI, rad1 * 180 / Math.PI, rad2 * 180 / Math.PI);
+      const y = lineWidth;
+      const x = Math.cos(rad) * lineWidth / Math.sin(rad);
+      // 回転移動させる
+      const rx = x * Math.cos(rad1) - y * Math.sin(rad1);
+      const ry = x * Math.sin(rad1) + y * Math.cos(rad1);
+      outsideLine.push({ x: vector.x + rx, y: vector.y + ry });
+      insideLine.push({ x: vector.x - rx, y: vector.y - ry });
     }
     ctx.lineTo(vector.x, vector.y);
   });
