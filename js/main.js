@@ -35,13 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  console.log(ctx.miterLimit);
 
   const points = [
     { x: 250, y: 70 },
     { x: 150, y: 100 },
-    { x: 400, y: 100 }
+    { x: 400, y: 70 }
   ];
-  const line = new Line(points);
+  window.line = new Line(points);
 
   ctx.strokeStyle = "red";
   ctx.beginPath();
@@ -51,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       ctx.lineTo(point.x, point.y);
     }
-  })
-  ctx.stroke()
+  });
+  ctx.stroke();
 
   ctx.strokeStyle = "black";
   ctx.beginPath();
@@ -62,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       ctx.lineTo(point.x, point.y);
     }
-  })
-  ctx.stroke()
-
+  });
+  ctx.stroke();
 });
