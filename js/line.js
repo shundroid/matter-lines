@@ -60,7 +60,8 @@ export default class Line {
     const rad = (rad2 - rad1) / 2;
     const x = Math.cos(rad) * this.lineWidth / Math.sin(rad);
     const y = this.lineWidth;
-    if (getDistance({ x: 0, y: 0 }, { x, y }) > this.miterLimit) {
+    const distance = getDistance({ x: 0, y: 0 }, { x, y });
+    if (distance > this.miterLimit) {
       rad1 -= Math.PI / 2;
       rad2 += Math.PI / 2;
       if (rad1 < rad2) {
@@ -87,5 +88,7 @@ export default class Line {
 
 function getDistance(point1, point2) {
   // 三平方の定理
-  return Math.sqrt(Math.abs(point1.x - point2.x) ^ 2 + Math.abs(point1.y - point2.y) ^ 2);
+  const a = Math.abs(point1.x - point2.x);
+  const b = Math.abs(point1.y - point2.y);
+  return Math.sqrt(a * a + b * b);
 }

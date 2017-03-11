@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script type="text/javascript" src="../js/build/bundle.js"></script>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      var lines = [
+        new Line([
+          { x: 50, y: 50 },
+          { x: 100, y: 50 }
+        ]),
+        new Line([
+          { x: 100, y: 100 },
+          { x: 50, y: 100 }
+        ]),
+        new Line([
+          { x: 200, y: 100 },
+          { x: 200, y: 200 }
+        ]),
+        new Line([
+          { x: 300, y: 200 },
+          { x: 300, y: 100 }
+        ])
+      ];
+
+      lines.forEach(line => {
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        line.points.forEach((point, index) => {
+          if (index === 0) {
+            ctx.moveTo(point.x, point.y);
+          } else {
+            ctx.lineTo(point.x, point.y);
+          }
+        });
+        ctx.stroke();
+
+        ctx.strokeStyle = "black";
+        ctx.beginPath();
+        line.getVertices().forEach((point, index) => {
+          if (index === 0) {
+            ctx.moveTo(point.x, point.y);
+          } else {
+            ctx.lineTo(point.x, point.y);
+          }
+        });
+        ctx.stroke();
+      });
+    });
+  </script>
+</head>
+<body>
+  <canvas id="canvas" width="600" height="600"></canvas>
+</body>
+</html>
