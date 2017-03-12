@@ -73,9 +73,9 @@ export default class Line {
     } else {
       this.outsidePoints.push({ x: point.x + rx, y: point.y + ry });
     }
-    if (distance > this.miterLimit && x > 0) {
-      this.insidePoints.push({ x: point.x - Math.cos(rad2) * this.lineWidth, y: point.y - Math.sin(rad2) * this.lineWidth });
-      this.insidePoints.push({ x: point.x - Math.cos(rad1) * this.lineWidth, y: point.y - Math.sin(rad1) * this.lineWidth });
+    if (distance > this.miterLimit && x >= 0) {
+      this.insidePoints.push({ x: point.x + Math.cos(rad1) * this.lineWidth, y: point.y + Math.sin(rad1) * this.lineWidth });
+      this.insidePoints.push({ x: point.x + Math.cos(rad2) * this.lineWidth, y: point.y + Math.sin(rad2) * this.lineWidth });
     } else {
       this.insidePoints.push({ x: point.x - rx, y: point.y - ry });
     }

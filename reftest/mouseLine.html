@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../js/build/bundle.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      var line = new Line();
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+      var count = 0;
+      canvas.addEventListener("mousemove", event => {
+        if (++count >= 10 && event.buttons === 1) {
+          count = 0;
+          line.addPoint({ x: event.clientX, y: event.clientY });
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.strokeStyle = "red";
+          ctx.beginPath();
+          line.points.forEach((point, index) => {
+            if (index === 0) {
+              ctx.moveTo(point.x, point.y);
+            } else {
+              ctx.lineTo(point.x, point.y);
+            }
+          });
+          ctx.stroke();
+
+          ctx.strokeStyle = "black";
+          ctx.beginPath();
+          line.getVertices().forEach((point, index) => {
+            if (index === 0) {
+              ctx.moveTo(point.x, point.y);
+            } else {
+              ctx.lineTo(point.x, point.y);
+            }
+          });
+          ctx.stroke();
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <canvas id="canvas" width="600" height="600" style="border: 1px solid black"></canvas>
+</body>
+</html>
