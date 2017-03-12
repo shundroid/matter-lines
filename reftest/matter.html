@@ -14,7 +14,8 @@
           Render = Matter.Render,
           World = Matter.World,
           Bodies = Matter.Bodies,
-          Events = Matter.Events;
+          Events = Matter.Events,
+          Body = Matter.Body;
 
       // create an engine
       var engine = Engine.create();
@@ -67,7 +68,10 @@
       }
       window.addEventListener("keydown", event => {
         if (event.keyCode === 32) {
-          var body = Bodies.circle(100, 10, 10);
+          var body = Bodies.circle(100, 15, 15, {
+            mass: 10,
+            frictionAir: 0
+          });
           World.add(engine.world, body);
         }
       });
