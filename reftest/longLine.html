@@ -10,33 +10,19 @@
     document.addEventListener("DOMContentLoaded", () => {
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
-      var lines = [
-        new Line([
-          { x: 50, y: 50 },
-          { x: 120, y: 60 },
-          { x: 50, y: 70 }
-        ]),
-        new Line([
-          { x: 150, y: 100 },
-          { x: 80, y: 110 },
-          { x: 180, y: 125 }
-        ]),
-        new Line([
-          { x: 50, y: 450 },
-          { x: 80, y: 200 },
-          { x: 110, y: 450 }
-        ]),
-        new Line([
-          { x: 200, y: 50 },
-          { x: 210, y: 300 },
-          { x: 220, y: 50 },
-          { x: 250, y: 300 },
-          { x: 100, y: 100 },
-          { x: 400, y: 100 }
-        ])
-      ];
+      var line = new Line();
 
-      lines.forEach(line => {
+      var count = 0;
+      function tick() {
+        if (count++ === 10) {
+          count = 0;
+          line.clear();
+          return;
+        }
+        line.addPoint({ x: Math.random() * canvas.width, y: Math.random() * canvas.height });
+
+        if (line.points.length <= 1) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = "red";
         ctx.beginPath();
         line.points.forEach((point, index) => {
@@ -58,7 +44,8 @@
           }
         });
         ctx.stroke();
-      });
+      }
+      setInterval(tick, 500);
     });
   </script>
 </head>

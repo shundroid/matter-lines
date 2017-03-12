@@ -57,25 +57,26 @@ export default class Line {
     const point = this.points[index];
     let rad1 = Math.atan2(this.points[index - 1].y - point.y, this.points[index - 1].x - point.x);
     let rad2 = Math.atan2(this.points[index + 1].y - point.y, this.points[index + 1].x - point.x);
+    // rad1 = 0° にした、二等分線になっている
     const rad = (rad2 - rad1) / 2;
     const x = Math.cos(rad) * this.lineWidth / Math.sin(rad);
     const y = this.lineWidth;
     const distance = getDistance({ x: 0, y: 0 }, { x, y });
-    if (distance > this.miterLimit) {
-      rad1 -= Math.PI / 2;
-      rad2 += Math.PI / 2;
-      if (rad1 < rad2) {
-        this.insidePoints.push({ x: point.x - Math.cos(rad2) * this.lineWidth, y: point.y - Math.sin(rad2) * this.lineWidth });
-        this.insidePoints.push({ x: point.x - Math.cos(rad1) * this.lineWidth, y: point.y - Math.sin(rad1) * this.lineWidth });
-      } else {
-        this.outsidePoints.push({ x: point.x - Math.cos(rad1) * this.lineWidth, y: point.y - Math.sin(rad1) * this.lineWidth });
-        this.outsidePoints.push({ x: point.x - Math.cos(rad2) * this.lineWidth, y: point.y - Math.sin(rad2) * this.lineWidth });
-      }
+    // 回転移動させる
+    const rx = x * Math.cos(rad1) - y * Math.sin(rad1);
+    const ry = x * Math.sin(rad1) + y * Math.cos(rad1);
+    rad1 -= Math.PI / 2;
+    rad2 += Math.PI / 2;
+    if (distance > this.miterLimit && x < 0) {
+      this.outsidePoints.push({ x: point.x - Math.cos(rad1) * this.lineWidth, y: point.y - Math.sin(rad1) * this.lineWidth });
+      this.outsidePoints.push({ x: point.x - Math.cos(rad2) * this.lineWidth, y: point.y - Math.sin(rad2) * this.lineWidth });
     } else {
-      // 回転移動させる
-      const rx = x * Math.cos(rad1) - y * Math.sin(rad1);
-      const ry = x * Math.sin(rad1) + y * Math.cos(rad1);
       this.outsidePoints.push({ x: point.x + rx, y: point.y + ry });
+    }
+    if (distance > this.miterLimit && x > 0) {
+      this.insidePoints.push({ x: point.x - Math.cos(rad2) * this.lineWidth, y: point.y - Math.sin(rad2) * this.lineWidth });
+      this.insidePoints.push({ x: point.x - Math.cos(rad1) * this.lineWidth, y: point.y - Math.sin(rad1) * this.lineWidth });
+    } else {
       this.insidePoints.push({ x: point.x - rx, y: point.y - ry });
     }
   }
