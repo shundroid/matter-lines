@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../js/build/bundle.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // module aliases
+      var Engine = Matter.Engine,
+          Render = Matter.Render,
+          World = Matter.World,
+          Bodies = Matter.Bodies;
+
+      // create an engine
+      var engine = Engine.create();
+
+      // create a renderer
+      var render = Render.create({
+          element: document.body,
+          engine: engine
+      });
+
+      // create two boxes and a ground
+      var line = new MatterLine(engine.world);
+      var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+      // add all of the bodies to the world
+      World.add(engine.world, ground);
+
+      // run the engine
+      Engine.run(engine);
+
+      // run the renderer
+      Render.run(render);
+
+      var canvas = document.querySelector("canvas");
+      var ctx = canvas.getContext("2d");
+      var count = 0;
+      canvas.addEventListener("mousemove", event => {
+        if (++count >= 10 && event.buttons === 1) {
+          count = 0;
+          line.addPoint({ x: event.clientX, y: event.clientY });
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
