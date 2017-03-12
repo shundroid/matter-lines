@@ -26,7 +26,7 @@
       });
 
       // create two boxes and a ground
-      var line = new MatterLine(engine.world);
+      var line = null;
       var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
       // add all of the bodies to the world
@@ -42,8 +42,11 @@
       var ctx = canvas.getContext("2d");
       var beforeX = null;
       var beforeY = null;
+      canvas.addEventListener("mousedown", () => {
+        line = new MatterLine(engine.world);
+      });
       canvas.addEventListener("mousemove", event => {
-        if (event.buttons === 1) {
+        if (line) {
           if (beforeX !== null || beforeY !== null) {
             var distance = getDistance({ x: event.clientX, y: event.clientY }, { x: beforeX, y: beforeY });
             if (distance < 5) return;
@@ -53,6 +56,9 @@
           beforeX = event.clientX;
           beforeY = event.clientY;
         }
+      });
+      canvas.addEventListener("mouseup", () => {
+        line = null;
       });
       function getDistance(point1, point2) {
         var a = Math.abs(point2.x - point1.x);
