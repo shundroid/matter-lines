@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script src="decomp.js"></script>
   <script src="../js/build/bundle.js"></script>
+  <title>Document</title>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // module aliases
@@ -14,7 +13,9 @@
           Render = Matter.Render,
           World = Matter.World,
           Bodies = Matter.Bodies,
-          Events = Matter.Events;
+          Events = Matter.Events,
+          Body = Matter.Body,
+          Vertices = Matter.Vertices;
 
       // create an engine
       var engine = Engine.create();
@@ -26,11 +27,19 @@
       });
 
       // create two boxes and a ground
-      var line = new MatterLine(engine.world);
+      var box = Body.create();
+      Body.setPosition(box, { x: 25, y: 25 });
+      Body.setVertices(box, [
+        { x: 0, y: 0 },
+        { x: 50, y: 0 },
+        { x: 50, y: 50 },
+        { x: 0, y: 50 }
+      ]);
+      Body.setStatic(box, true);
       var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
 
       // add all of the bodies to the world
-      World.add(engine.world, ground);
+      World.add(engine.world, [ground, box]);
 
       // run the engine
       Engine.run(engine);
@@ -38,31 +47,20 @@
       // run the renderer
       Render.run(render);
 
-      var canvas = document.querySelector("canvas");
-      var ctx = canvas.getContext("2d");
-      var beforeX = null;
-      var beforeY = null;
-      canvas.addEventListener("mousemove", event => {
-        if (event.buttons === 1) {
-          if (beforeX !== null || beforeY !== null) {
-            var distance = getDistance({ x: event.clientX, y: event.clientY }, { x: beforeX, y: beforeY });
-            if (distance < 5) return;
-          }
-          count = 0;
-          line.addPoint({ x: event.clientX, y: event.clientY });
-          beforeX = event.clientX;
-          beforeY = event.clientY;
-        }
-      });
-      function getDistance(point1, point2) {
-        var a = Math.abs(point2.x - point1.x);
-        var b = Math.abs(point2.y - point1.y);
-        return Math.sqrt(a * a + b * b);
-      }
       window.addEventListener("keydown", event => {
         if (event.keyCode === 32) {
-          var body = Bodies.circle(100, 10, 10);
-          World.add(engine.world, body);
+          console.log(box.bounds.max.x, box.bounds.max.y, box.bounds.min.x, box.bounds.min.y)
+          Body.setVertices(box, [
+            { x: 0, y: 0 },
+            { x: 100, y: 0 },
+            { x: 100, y: 100 },
+            { x: 0, y: 100 }
+          ]);
+          Body.setPosition(box, {
+            x: box.position.x - box.bounds.min.x,
+            y: box.position.y - box.bounds.min.y
+          });
+          console.log(box.bounds.max.x, box.bounds.max.y, box.bounds.min.x, box.bounds.min.y)
         }
       });
     });
