@@ -1,5 +1,5 @@
 import Line from "./line";
-import { Bodies, World, Body, Vertices } from "matter-js";
+import { Bodies, World, Body, Vertices, Bounds } from "matter-js";
 import { EventEmitter } from "events";
 export default class MatterLine extends Line {
   constructor(world, defaultPoints = [], lineWidth = 10, miterLimit = 10) {
@@ -25,9 +25,10 @@ export default class MatterLine extends Line {
       }
       this.body = Bodies.fromVertices(0, 0, vertices);
       World.add(this.world, this.body);
+      const bounds = Bounds.create(vertices);
       Body.setPosition(this.body, {
-        x: this.body.position.x - this.body.bounds.min.x + 10,
-        y: this.body.position.y - this.body.bounds.min.y
+        x: this.body.position.x - this.body.bounds.min.x + bounds.min.x,
+        y: this.body.position.y - this.body.bounds.min.y + bounds.min.y
       });
       Body.setStatic(this.body, true);
     }
