@@ -1,14 +1,16 @@
 const webpack = require("webpack");
 
-module.exports = {
+module.exports = [{
   cache: true,
-  entry: ["./js/test.js"],
+  entry: "./js/main.js",
   output: {
-    path: __dirname,
-    filename: "./js/build/bundle.js"
+    path: "./js/build",
+    filename: "main.bundle.js",
+    libraryTarget: "umd",
+    library: "MatterLine"
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
@@ -17,8 +19,36 @@ module.exports = {
           cacheDirectory: true,
           presets: ["es2015"]
         }
-      },
-      { test: /\.css$/, loader: "style-loader!css-loader" }
+      }
     ]
-  }
-};
+  },
+  plugins: [
+  ],
+  externals: [
+    "matter-js"
+  ]
+}, {
+  cache: true,
+  entry: "./js/test.js",
+  output: {
+    path: "./js/build",
+    filename: "test.bundle.js",
+    libraryTarget: "umd",
+    library: ["Tests"]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: "babel-loader",
+        query: {
+          cacheDirectory: true,
+          presets: ["es2015"]
+        }
+      }
+    ]
+  },
+  plugins: [
+  ]
+}];

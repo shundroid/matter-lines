@@ -2,13 +2,13 @@
   "name": "matter-lines",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/js/matter-line.js",
+  "main": "lib/js/main.js",
   "files": [
     "lib"
   ],
   "scripts": {
     "test": "mocha test/**/*.js --compilers js:babel-register",
-    "build-tests": "webpack --progress --colors --watch",
+    "webpack": "webpack --progress --colors --watch",
     "build": "babel js/*.js --out-dir lib --source-maps inline"
   },
   "babel": {

@@ -1,6 +1,6 @@
 import Line from "./line";
 import { Bodies, World, Body, Vertices, Bounds } from "matter-js";
-import { EventEmitter } from "events";
+
 export default class MatterLine extends Line {
   constructor(world, defaultPoints = [], lineWidth = 10, miterLimit = 10) {
     super(defaultPoints, lineWidth, miterLimit);

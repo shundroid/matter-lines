@@ -6,16 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <script src="decomp.js"></script>
-  <script src="../js/build/bundle.js"></script>
+  <script src="../js/build/test.bundle.js"></script>
+  <script>
+    window["matter-js"] = Tests.Matter;
+  </script>
+  <script src="../js/build/main.bundle.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // module aliases
-      var Engine = Matter.Engine,
-          Render = Matter.Render,
-          World = Matter.World,
-          Bodies = Matter.Bodies,
-          Events = Matter.Events,
-          Body = Matter.Body;
+      var Engine = Tests.Matter.Engine,
+          Render = Tests.Matter.Render,
+          World = Tests.Matter.World,
+          Bodies = Tests.Matter.Bodies,
+          Events = Tests.Matter.Events,
+          Body = Tests.Matter.Body;
 
       // create an engine
       var engine = Engine.create();

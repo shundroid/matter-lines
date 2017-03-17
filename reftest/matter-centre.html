@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="../js/build/bundle.js"></script>
+  <script src="../js/build/test.bundle.js"></script>
+  <script src="../js/build/main.bundle.js"></script>
   <title>Document</title>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       // module aliases
-      var Engine = Matter.Engine,
-          Render = Matter.Render,
-          World = Matter.World,
-          Bodies = Matter.Bodies,
-          Events = Matter.Events,
-          Body = Matter.Body,
-          Vertices = Matter.Vertices;
+      var Engine = Tests.Matter.Engine,
+          Render = Tests.Matter.Render,
+          World = Tests.Matter.World,
+          Bodies = Tests.Matter.Bodies,
+          Events = Tests.Matter.Events,
+          Body = Tests.Matter.Body,
+          Vertices = Tests.Matter.Vertices;
 
       // create an engine
       var engine = Engine.create();

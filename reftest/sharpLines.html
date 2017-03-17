@@ -5,28 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script type="text/javascript" src="../js/build/bundle.js"></script>
+  <script type="text/javascript" src="../js/build/test.bundle.js"></script>
+  <script type="text/javascript" src="../js/build/main.bundle.js"></script>
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", () => {
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
       var lines = [
-        new Line([
+        new Tests.Line([
           { x: 50, y: 50 },
           { x: 120, y: 60 },
           { x: 50, y: 70 }
         ]),
-        new Line([
+        new Tests.Line([
           { x: 150, y: 100 },
           { x: 80, y: 110 },
           { x: 180, y: 125 }
         ]),
-        new Line([
+        new Tests.Line([
           { x: 50, y: 450 },
           { x: 80, y: 200 },
           { x: 110, y: 450 }
         ]),
-        new Line([
+        new Tests.Line([
           { x: 200, y: 50 },
           { x: 210, y: 300 },
           { x: 220, y: 50 },

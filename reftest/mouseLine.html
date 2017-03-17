@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="../js/build/bundle.js"></script>
+  <script src="../js/build/test.bundle.js"></script>
+  <script src="../js/build/main.bundle.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      var line = new Line();
+      var line = new Tests.Line();
       var canvas = document.getElementById("canvas");
       var ctx = canvas.getContext("2d");
       var count = 0;
